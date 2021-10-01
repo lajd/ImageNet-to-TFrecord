@@ -477,7 +477,8 @@ def _find_image_files(data_dir, labels_file):
   shuffled_index = range(len(filenames))
   random.seed(12345)
 
-  random.shuffle(list(range(len(shuffled_index))))
+  shuffled_index = list(shuffled_index)
+  random.shuffle(shuffled_index)
 
   filenames = [filenames[i] for i in shuffled_index]
   synsets = [synsets[i] for i in shuffled_index]
