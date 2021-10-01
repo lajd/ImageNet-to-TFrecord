@@ -83,8 +83,10 @@ import threading
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
+tf.compat.v1.disable_eager_execution()
 
 tf.app.flags.DEFINE_string('train_directory', None,
                            'Training data directory')
