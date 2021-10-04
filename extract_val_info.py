@@ -32,9 +32,9 @@ for filename in os.listdir(images_dir):
         os.makedirs(dir)
 
     output_file_path = os.path.join(dir, filename)
-    if os.path.exists(output_file_path):
-        continue
-    copyfile(filepath, output_file_path)
+    if not os.path.exists(output_file_path):
+        copyfile(filepath, output_file_path)
+    os.remove(filepath)
 
 
 
