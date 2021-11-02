@@ -80,9 +80,12 @@ import os
 import random
 import sys
 import threading
+import io
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
+from PIL import Image
+
 # import tensorflow as tf
 import tensorflow.compat.v1 as tf
 
@@ -343,7 +346,19 @@ def _process_image_files_batch(coder, thread_index, ranges, name, filenames,
       synset = synsets[i]
       human = humans[i]
 
-      image_buffer, height, width = _process_image(filename, coder)
+      image = Image.open(filename)
+      if image.mode != "RGB":
+          image = image.convert("RGB")
+
+      # image = image.resize((512, 512))
+
+      height = image.height
+      width = image.width
+      img_byte_arr = io.BytesIO()
+      image.save(img_byte_arr, format="JPEG")
+      image_buffer = img_byte_arr.getvalue()
+
+      # image_buffer, height, width = _process_image(filename, coder)
 
       example = _convert_to_example(filename, image_buffer, label, synset, human, height, width)
       writer.write(example.SerializeToString())
@@ -379,6 +394,12 @@ def _process_image_files(name, filenames, synsets, labels, humans, num_shards):
   assert len(filenames) == len(synsets)
   assert len(filenames) == len(labels)
   assert len(filenames) == len(humans)
+
+
+  # filenames = filenames[:int(len(filenames)/10)]
+  # labels = labels[:int(len(labels)/10)]
+  # humans = humans[:int(len(humans)/10)]
+
 
   # Break all images into batches with a [ranges[i][0], ranges[i][1]].
   spacing = np.linspace(0, len(filenames), FLAGS.num_threads + 1).astype(np.int)
