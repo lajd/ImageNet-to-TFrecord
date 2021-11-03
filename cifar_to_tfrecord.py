@@ -82,7 +82,7 @@ def convert_files(inpit_path: str, output_path: str):
     for file_path in matching_files:
         dict = unpickle(file_path)
 
-        labels: List[int] = dict[b"labels"]
+        labels: List[int] = dict[b"fine_labels"]
         filenames: List[str] = dict[b"filenames"]
         data: List[np.array] = dict[b"data"]
         # synsets: List[str] = []
@@ -103,7 +103,7 @@ def convert_files(inpit_path: str, output_path: str):
             width = image.width
 
             img_byte_arr = io.BytesIO()
-            image.save(img_byte_arr, format="BMP")
+            image.save(img_byte_arr, format="JPEG")
             image_buffer = img_byte_arr.getvalue()
 
 
@@ -116,10 +116,10 @@ def convert_files(inpit_path: str, output_path: str):
                 print(f"{datetime.now()}: Processed {image_counter} images.")
 
 
-input_path = "/mnt/Bolide/cifra/cifar-10-batches-py/"
-output_path = "/mnt/Bolide/cifra/cifar-10-tfrecord"
+input_path = "/mnt/Bolide/cifra/cifar-100-python/"
+output_path = "/mnt/Bolide/cifra/cifar-100-tfrecord"
 
 os.makedirs(output_path, exist_ok=True)
 
-convert_files(os.path.join(input_path, "data_batch*"), os.path.join(output_path, "train"))
-convert_files(os.path.join(input_path, "test_batch"), os.path.join(output_path, "val"))
+convert_files(os.path.join(input_path, "train*"), os.path.join(output_path, "train"))
+convert_files(os.path.join(input_path, "test"), os.path.join(output_path, "val"))
