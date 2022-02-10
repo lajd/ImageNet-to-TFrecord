@@ -484,7 +484,7 @@ def _find_image_files(data_dir, labels_file):
 
     # Allow subset of imagenet to be created
     if not os.path.exists(os.path.join(data_dir, synset)):
-        print(f"Skipping synset {synset}")
+        print("Skipping synset {}".format(synset))
         continue
     matching_files = tf.gfile.Glob(jpeg_file_path)
 
