@@ -2,6 +2,16 @@
 
 This script is a revised version of [TensorFlow-Slim's] (https://github.com/tensorflow/models/tree/master/research/slim) **build_imagenet_data.py** with the difference that this targets the classification task only. Purpose of this script is to convert a set of properly arranged images from Image-Net into TF-Record format.
 
+
+## Installation
+
+```shell
+conda create -n imagenet2tfr python=3.9
+conda activate imagenet2tfr
+pip install -r requirements.txt
+```
+
+
 ## Format
 
 The Image-Net images should be in unique synset label name folders, in the following format *(below example is for validation set - 50K images)* :

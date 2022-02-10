@@ -486,16 +486,17 @@ def _find_image_files(data_dir, labels_file):
     if not os.path.exists(os.path.join(data_dir, synset)):
         print("Skipping synset {}".format(synset))
         continue
-    matching_files = tf.gfile.Glob(jpeg_file_path)
+    else:
+        matching_files = tf.gfile.Glob(jpeg_file_path)
 
-    labels.extend([label_index] * len(matching_files))
-    synsets.extend([synset] * len(matching_files))
-    filenames.extend(matching_files)
+        labels.extend([label_index] * len(matching_files))
+        synsets.extend([synset] * len(matching_files))
+        filenames.extend(matching_files)
 
-    if not label_index % 100:
-      print('Finished finding files in %d of %d classes.' % (
-          label_index, len(challenge_synsets)))
-    label_index += 1
+        if not label_index % 100:
+          print('Finished finding files in %d of %d classes.' % (
+              label_index, len(challenge_synsets)))
+        label_index += 1
 
   # Shuffle the ordering of all image files in order to guarantee
   # random ordering of the images with respect to label in the
